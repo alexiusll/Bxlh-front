@@ -1,0 +1,6 @@
+# https://eslint.bootcss.com/docs/user-guide/configuring#eslintignore
+
+# 输出文件
+/dist/*
+# 模板文件
+document.ejs

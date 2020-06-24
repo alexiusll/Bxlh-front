@@ -1,0 +1,108 @@
+.crf_content {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.crf_aside {
+  flex-grow: 0;
+  font-weight: bold !important;
+}
+
+.crf_body {
+  flex-grow: 1;
+  padding-left: 30px;
+  padding-bottom: 30px;
+}
+
+.crf_info {
+  font-size: 18px;
+  font-weight: bold;
+  margin-left: 10px;
+  padding: 10px;
+  line-height: 30px;
+}
+
+.menu_title {
+  font-weight: bold;
+}
+
+.menu_div {
+  border: 1px solid #d8d8d8;
+  border-radius: 4px;
+}
+
+.interview_div {
+  padding: 15px;
+  border: 1px solid #d8d8d8;
+  border-radius: 4px;
+}
+
+.menu_content {
+  padding: 30px;
+}
+
+.patient_report_table {
+  margin-top: 20px;
+}
+
+.file_modal {
+  min-width: 800px;
+  min-height: 350px;
+}
+
+.inline_upload {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.file_tip {
+  padding-bottom: 10px;
+  font-size: 14px;
+}
+
+.smock_item {
+  display: inline-block;
+  margin-left: 15px;
+}
+
+.drinking_item {
+  display: inline-block;
+  margin-left: 15px;
+}
+
+.from_item {
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.diagnose_history_modal {
+  margin-top: 20px;
+  width: 100% !important;
+  max-width: 1000px;
+}
+
+.modal_divider {
+  margin-top: 5px;
+  margin-bottom: 20px;
+}
+
+.lab_inspection_divider {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.ECOG_input {
+  width: 250px;
+  margin-left: 20px;
+}
+
+.sign_img {
+  width: 400px;
+  border-radius: 4px;
+}
+
+.download_text {
+  color: #39bbdb;
+  cursor: pointer;
+}

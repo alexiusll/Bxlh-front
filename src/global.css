@@ -1,0 +1,131 @@
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+.body_content {
+  max-width: 1440px;
+  margin: 10px auto;
+  padding: 0 15px;
+  background-color: white;
+}
+
+.sample_form .ant-form-item {
+  margin-bottom: 15px !important;
+}
+
+.ant-table-thead > tr > th {
+  font-weight: bold !important;
+  background-color: #39bbdb30 !important;
+}
+
+thead {
+  font-weight: bold !important;
+  background-color: #39bbdb30 !important;
+}
+
+/* 覆盖ant主题，修改为绿色 */
+/* .page_body .ant-btn-primary,
+.ant-modal .ant-btn-primary {
+  background-color: #4278e47e !important;
+  background-image: linear-gradient(-180deg, rgb(87, 139, 241), #4279e4 90%) !important;
+  border: 1px solid rgba(27, 31, 35, 0.2) !important;
+}
+
+.page_body .ant-btn-primary:hover,
+.ant-modal .ant-btn-primary:hover {
+  background-position: -0.5em !important;
+  border-color: rgba(27, 31, 35, 0.5) !important;
+}
+
+.page_body .ant-checkbox-wrapper:hover .ant-checkbox-inner,
+.page_body .ant-checkbox:hover .ant-checkbox-inner,
+.page_body .ant-checkbox-input:focus + .ant-checkbox-inner,
+.page_body .ant-radio-checked .ant-radio-inner,
+.page_body .ant-radio-wrapper:hover .ant-radio,
+.page_body .ant-radio:hover .ant-radio-inner,
+.page_body .ant-radio-input:focus + .ant-radio-inner {
+  border-color: #4279e4 !important;
+}
+
+.page_body .ant-checkbox-checked .ant-checkbox-inner {
+  background-color: #4279e4 !important;
+  border-color: #4279e4 !important;
+}
+
+.ant-table-thead > tr.ant-table-row-hover:not(.ant-table-expanded-row):not(.ant-table-row-selected) > td,
+.ant-table-tbody > tr.ant-table-row-hover:not(.ant-table-expanded-row):not(.ant-table-row-selected) > td,
+.ant-table-thead > tr:hover:not(.ant-table-expanded-row):not(.ant-table-row-selected) > td,
+.ant-table-tbody > tr:hover:not(.ant-table-expanded-row):not(.ant-table-row-selected) > td {
+  background: #4278e44b !important;
+}
+
+/* .page_body .ant-input:hover,.page_body .ant-input:focus{
+  border-color: #269f42ab !important;
+}
+
+.page_body .ant-input:focus {
+  box-shadow: 0 0 0 2px rgba(38, 159, 66, 0.2) !important;
+} 
+
+.page_body .ant-radio-inner::after,
+.ant-switch-checked {
+  background-color: #4279e4 !important;
+} */
+
+.ant-radio-wrapper {
+  margin-bottom: 10px !important;
+}
+
+/* 修改label自动换行 */
+.ant-form-item-label {
+  white-space: normal !important;
+}
+
+/* 修改滚动条样式 */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+  background-color: #f5f5f5;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #d8d8d8;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #fff;
+}
+
+/* 修改折叠面板样式 */
+.ant-collapse > .ant-collapse-item {
+  border-bottom: 0 !important;
+}
+
+.ant-collapse {
+  background-color: #fff !important;
+  border: 0 !important;
+}
+
+.ant-collapse > .ant-collapse-item > .ant-collapse-header {
+  padding: 8px 40px !important;
+  color: #39bbdb;
+}
+
+.ant-collapse-content {
+  border-top: 0 !important;
+}
+
+.ant-collapse-content > .ant-collapse-content-box {
+  padding: 0 !important;
+}
+
+/* 修改divider样式 */
+.ant-divider-horizontal {
+  margin: 16px 0 !important;
+}

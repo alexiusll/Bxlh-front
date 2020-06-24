@@ -1,0 +1,46 @@
+.sample_table {
+  margin-top: 10px;
+}
+
+.sample_info {
+  font-size: 18px;
+  font-weight: bold;
+  margin-left: 10px;
+  padding: 10px;
+}
+
+.modal {
+  width: 600px !important;
+}
+
+.modal_bottom {
+  text-align: center;
+}
+
+.modal_divider {
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+.modal_submit {
+  margin-right: 20px;
+}
+
+.filterLine {
+  text-align: left;
+  line-height: 30px;
+}
+
+.filterLineLeft {
+  color: rgba(0, 0, 0, 0.85);
+  font-weight: bold;
+}
+
+.project_search {
+  margin: 10px 0;
+}
+
+.bannerText {
+  font-size: 18px;
+  margin-right: 30px;
+}

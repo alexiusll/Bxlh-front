@@ -1,0 +1,52 @@
+.navigator_content {
+  background-color: #fff;
+  box-shadow: 0 2px 8px #f0f1f2;
+}
+
+.navigator_bar {
+  height: 48px;
+  max-width: 1280px;
+  padding: 0 15px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  line-height: 48px;
+}
+
+.page_children {
+  margin-top: 15px;
+}
+
+.login_img {
+  width: 120px;
+}
+
+.title {
+  color: #39bbdb;
+  margin-left: 20px;
+  font-size: 22px;
+  vertical-align: middle;
+}
+
+.user_title {
+  color: #39bbdb;
+  font-size: 16px;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+
+.goBack_button {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.user_button {
+  margin: 15px;
+  text-align: center;
+}
+
+.user_sign {
+  max-width: 600px;
+}
