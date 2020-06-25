@@ -4,7 +4,7 @@ import CookieUtil from '@/utils/cookie'
 
 // 全局路由管理
 const GlobalRouter = props => {
-  if (!CookieUtil.get('token_1')) {
+  if (!CookieUtil.get('token_2')) {
     window.location.pathname = ''
     return null
   }

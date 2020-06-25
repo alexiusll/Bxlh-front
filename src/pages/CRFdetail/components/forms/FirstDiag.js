@@ -32,6 +32,7 @@ class FirstDiag extends React.Component {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (!err) {
+        // console.log(values)
         // 重构clinical_symptoms
         const clinical_symptoms = {}
 
@@ -48,13 +49,10 @@ class FirstDiag extends React.Component {
         // 重构gene_mutation_type
         const gene_mutation_type = {}
 
-        gene_mutation_type['gene_mutation_type[ALK]_other'] = values.gene_mutation_type.ALK._other
-        gene_mutation_type['gene_mutation_type[EGFR]_other'] = values.gene_mutation_type.EGFR._other
-        if (values.gene_mutation_type.ALK._ALK) {
-          gene_mutation_type['gene_mutation_type[ALK]'] = 'on'
-        }
-        if (values.gene_mutation_type.EGFR._EGFR) {
-          gene_mutation_type['gene_mutation_type[EGFR]'] = 'on'
+        // gene_mutation_type['gene_mutation_type[ALK]_other'] = values.gene_mutation_type.ALK._other
+        gene_mutation_type['gene_mutation_type[其他]_other'] = values.gene_mutation_type['其他']._other
+        if (values.gene_mutation_type['其他']._other) {
+          gene_mutation_type['gene_mutation_type[其他]'] = 'on'
         }
         for (const type in values.gene_mutation_type) {
           if (values.gene_mutation_type[type] === true) {
@@ -75,6 +73,12 @@ class FirstDiag extends React.Component {
           }
         }
         values.transfer_site = transfer_site
+
+        if (values.tmb === '其他') {
+          if (values.tmb_other == undefined) {
+            values.tmb_other = ''
+          }
+        }
 
         const { dispatch } = this.props
         const sample_id = getSampleId()
@@ -97,6 +101,8 @@ class FirstDiag extends React.Component {
     const { first_diagnose } = this.props.crf_first_diagnose
     const submitLoading = this.props.loading.effects['crf_first_diagnose/modifyFirstDiagnose']
     const { biopsy_method, tumor_pathological_type, genetic_testing_specimen, tmb } = this.state
+
+    // console.log(first_diagnose)
 
     return (
       <Form labelCol={{ span: 4 }} wrapperCol={{ span: 19, offset: 1 }} onSubmit={this.handleSubmit}>
@@ -286,14 +292,14 @@ class FirstDiag extends React.Component {
           })(
             <Radio.Group onChange={e => this.handleStateChange('tumor_pathological_type', e)}>
               <Radio value="腺癌">腺癌</Radio>
-              <Radio value="鳞癌">鳞癌</Radio>
+              {/* <Radio value="鳞癌">鳞癌</Radio>
               <Radio value="小细胞肺癌">小细胞肺癌</Radio>
               <Radio value="大细胞癌">大细胞癌</Radio>
               <Radio value="神经内分泌癌">神经内分泌癌</Radio>
               <Radio value="肉瘤">肉瘤</Radio>
-              <Radio value="分化差的癌">分化差的癌</Radio>
+              <Radio value="分化差的癌">分化差的癌</Radio> */}
               <Radio value="混合型癌">
-                混合型癌
+                其他
                 {tumor_pathological_type === '混合型癌' ||
                 (tumor_pathological_type === '' && first_diagnose.tumor_pathological_type === '混合型癌') ? (
                   <div style={{ display: 'inline-block' }}>
@@ -342,91 +348,32 @@ class FirstDiag extends React.Component {
         </Form.Item>
         <Form.Item label="基因突变类型">
           <Form.Item style={{ display: 'inline-block' }}>
-            {getFieldDecorator('gene_mutation_type[未测]', {
-              initialValue: first_diagnose['gene_mutation_type[未测]'] === 'on',
+            {getFieldDecorator('gene_mutation_type[EGFR 19号外显子插入异变]', {
+              initialValue: first_diagnose['gene_mutation_type[EGFR 19号外显子插入异变]'] === 'on',
               valuePropName: 'checked'
-            })(<Checkbox>未测</Checkbox>)}
+            })(<Checkbox>EGFR 19号外显子插入异变</Checkbox>)}
+          </Form.Item>
+          <Form.Item style={{ display: 'inline-block' }}>
+            {getFieldDecorator('gene_mutation_type[EGFR 21号外显子插入异变]', {
+              initialValue: first_diagnose['gene_mutation_type[EGFR 21号外显子插入异变]'] === 'on',
+              valuePropName: 'checked'
+            })(<Checkbox>EGFR 21号外显子插入异变</Checkbox>)}
+          </Form.Item>
+          <Form.Item style={{ display: 'inline-block' }}>
+            {getFieldDecorator('gene_mutation_type[EGFR 20号外显子置换异变(T790M)]', {
+              initialValue: first_diagnose['gene_mutation_type[EGFR 20号外显子置换异变(T790M)]'] === 'on',
+              valuePropName: 'checked'
+            })(<Checkbox>EGFR 20号外显子置换异变(T790M)</Checkbox>)}
           </Form.Item>
           <Form.Item className={styles.from_item}>
-            {getFieldDecorator('gene_mutation_type[不详]', {
-              initialValue: first_diagnose['gene_mutation_type[不详]'] === 'on',
+            {getFieldDecorator('gene_mutation_type[其他]', {
+              initialValue: first_diagnose['gene_mutation_type[其他]'] === 'on',
               valuePropName: 'checked'
-            })(<Checkbox>不详</Checkbox>)}
-          </Form.Item>
-          <Form.Item className={styles.from_item}>
-            {getFieldDecorator('gene_mutation_type[无突变]', {
-              initialValue: first_diagnose['gene_mutation_type[无突变]'] === 'on',
-              valuePropName: 'checked'
-            })(<Checkbox>无突变</Checkbox>)}
-          </Form.Item>
-          <Form.Item className={styles.from_item}>
-            {getFieldDecorator('gene_mutation_type[ROS-1]', {
-              initialValue: first_diagnose['gene_mutation_type[ROS-1]'] === 'on',
-              valuePropName: 'checked'
-            })(<Checkbox>ROS-1</Checkbox>)}
-          </Form.Item>
-          <Form.Item className={styles.from_item}>
-            {getFieldDecorator('gene_mutation_type[cMET]', {
-              initialValue: first_diagnose['gene_mutation_type[cMET]'] === 'on',
-              valuePropName: 'checked'
-            })(<Checkbox>cMET</Checkbox>)}
-          </Form.Item>
-          <Form.Item className={styles.from_item}>
-            {getFieldDecorator('gene_mutation_type[BRAF]', {
-              initialValue: first_diagnose['gene_mutation_type[BRAF]'] === 'on',
-              valuePropName: 'checked'
-            })(<Checkbox>BRAF</Checkbox>)}
-          </Form.Item>
-          <Form.Item className={styles.from_item}>
-            {getFieldDecorator('gene_mutation_type[KRAS]', {
-              initialValue: first_diagnose['gene_mutation_type[KRAS]'] === 'on',
-              valuePropName: 'checked'
-            })(<Checkbox>KRAS</Checkbox>)}
-          </Form.Item>
-          <Form.Item className={styles.from_item}>
-            {getFieldDecorator('gene_mutation_type[Her-2]', {
-              initialValue: first_diagnose['gene_mutation_type[Her-2]'] === 'on',
-              valuePropName: 'checked'
-            })(<Checkbox>Her-2</Checkbox>)}
-          </Form.Item>
-          <Form.Item className={styles.from_item}>
-            {getFieldDecorator('gene_mutation_type[RET]', {
-              initialValue: first_diagnose['gene_mutation_type[RET]'] === 'on',
-              valuePropName: 'checked'
-            })(<Checkbox>RET</Checkbox>)}
-          </Form.Item>
-          <Form.Item className={styles.from_item}>
-            {getFieldDecorator('gene_mutation_type[ERBB2]', {
-              initialValue: first_diagnose['gene_mutation_type[ERBB2]'] === 'on',
-              valuePropName: 'checked'
-            })(<Checkbox>ERBB2</Checkbox>)}
-          </Form.Item>
-          <Form.Item className={styles.from_item}>
-            {getFieldDecorator('gene_mutation_type[TP53]', {
-              initialValue: first_diagnose['gene_mutation_type[TP53]'] === 'on',
-              valuePropName: 'checked'
-            })(<Checkbox>TP53</Checkbox>)}
-          </Form.Item>
-          <Form.Item className={styles.from_item}>
-            {getFieldDecorator('gene_mutation_type[EGFR]_EGFR', {
-              initialValue: first_diagnose['gene_mutation_type[EGFR]'] === 'on',
-              valuePropName: 'checked'
-            })(<Checkbox>EGFR</Checkbox>)}
+            })(<Checkbox>其他</Checkbox>)}
             <div style={{ display: 'inline-block' }}>
-              {getFieldDecorator('gene_mutation_type[EGFR]_other', {
-                initialValue: first_diagnose['gene_mutation_type[EGFR]_other']
-              })(<Input style={{ width: 200 }} placeholder="EGFR描述" />)}
-            </div>
-          </Form.Item>
-          <Form.Item style={{ display: 'inline-block', marginLeft: '20px' }}>
-            {getFieldDecorator('gene_mutation_type[ALK]_ALK', {
-              initialValue: first_diagnose['gene_mutation_type[ALK]'] === 'on',
-              valuePropName: 'checked'
-            })(<Checkbox>ALK</Checkbox>)}
-            <div style={{ display: 'inline-block' }}>
-              {getFieldDecorator('gene_mutation_type[ALK]_other', {
-                initialValue: first_diagnose['gene_mutation_type[ALK]_other']
-              })(<Input style={{ width: 200 }} placeholder="ALK描述" />)}
+              {getFieldDecorator('gene_mutation_type[其他]_other', {
+                initialValue: first_diagnose['gene_mutation_type[其他]_other']
+              })(<Input style={{ width: 200 }} placeholder="其他描述" />)}
             </div>
           </Form.Item>
         </Form.Item>
@@ -435,7 +382,7 @@ class FirstDiag extends React.Component {
             initialValue: first_diagnose.pdl1
           })(
             <Radio.Group>
-              <Radio value={0}>未测</Radio>
+              {/* <Radio value={0}>未测</Radio> */}
               <Radio value={1}>不详</Radio>
               <Radio value={2}>&gt;50%</Radio>
               <Radio value={3}>1%-50%</Radio>
@@ -449,7 +396,7 @@ class FirstDiag extends React.Component {
             initialValue: first_diagnose.tmb
           })(
             <Radio.Group onChange={e => this.handleStateChange('tmb', e)}>
-              <Radio value="未测">未测</Radio>
+              {/* <Radio value="未测">未测</Radio> */}
               <Radio value="不详">不详</Radio>
               <Radio value="其他">
                 数量(个突变/Mb)
@@ -469,7 +416,7 @@ class FirstDiag extends React.Component {
             initialValue: first_diagnose.msi
           })(
             <Radio.Group>
-              <Radio value={0}>未测</Radio>
+              {/* <Radio value={0}>未测</Radio> */}
               <Radio value={1}>不详</Radio>
               <Radio value={2}>微卫星稳定型</Radio>
               <Radio value={3}>微卫星不稳定型</Radio>

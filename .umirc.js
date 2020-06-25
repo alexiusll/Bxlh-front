@@ -4,7 +4,7 @@ export default {
   treeShaking: true, 
   history: 'hash',
   // publicPath: '/static/p1/',
-  publicPath: '/p1/',
+  publicPath: '/p2/',
   theme: {
     'primary-color': '#39bbdb',
     // 'primary-color': '#94CEDC', 甲方原来颜色
@@ -17,7 +17,7 @@ export default {
   //webpack copy favicon 文件，由于document.ejs没有引入，所以不会自动打包输出
   copy: ['/src/assets/favicon.png'],
   //部署到非根目录路径
-  base: 'p1',
+  base: 'p2',
   //静态资源到非根目录
   proxy: {
     '/api/v1': {
@@ -28,7 +28,7 @@ export default {
       }
     },
     '/api': {
-      target: 'http://39.106.111.52/p1/api',
+      target: 'http://39.106.111.52/p2/api',
       changeOrigin: true,
       pathRewrite: {
         '^/api': ''

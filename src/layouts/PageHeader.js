@@ -34,6 +34,7 @@ class PageHeader extends React.Component {
         // 清空cookie
         CookieUtil.unset('token')
         CookieUtil.unset('token_1')
+        CookieUtil.unset('token_2')
         CookieUtil.unset('userInfo')
         CookieUtil.unset('user_signature')
         // 分离项目后跳转登陆 不能用umi自带的router 需要手动跳转

@@ -49,7 +49,7 @@ const config = {
   local: 'http://localhost:82',
   local_auth: 'http://localhost:81',
   //预生产预览环境  阿里云的测试服务器
-  pre: 'http://39.106.111.52/p1/api',
+  pre: 'http://39.106.111.52/p2/api',
   pre_auth: 'http://39.106.111.52/api',
   // 预生产预览环境  阿里云的测试服务器2
   // pre1: 'http://39.96.191.139:82',
@@ -78,7 +78,7 @@ function auth_request(url, { method = 'GET', params = {}, data = {} }) {
   }
 
   // 判断cookie是否失效
-  if (CookieUtil.get('token_1') === null) {
+  if (CookieUtil.get('token_2') === null) {
     // 防止同时多次请求
     if (!COOKIE_CONFIRM) {
       return
@@ -100,7 +100,7 @@ function auth_request(url, { method = 'GET', params = {}, data = {} }) {
       // 这里的request的header不能加在extend创建实例里
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${CookieUtil.get('token_1')}`
+        Authorization: `Bearer ${CookieUtil.get('token_2')}`
       }
     }).then(res => {
       if (res && res.code === 200) {

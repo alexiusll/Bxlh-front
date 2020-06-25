@@ -16,6 +16,7 @@ class DiagnoseHistory extends React.Component {
       record: {},
       visible: false,
       diagnose_number: 1,
+      diagnose_id: undefined,
       diagnose_existence: 0,
       biopsy_method: '',
       biopsy_type: '',
@@ -59,6 +60,7 @@ class DiagnoseHistory extends React.Component {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (!err) {
+        const { record } = this.state
         // 重构时间
         if (values.last_front_time) {
           values.last_front_time = values.last_front_time.format('YYYY-MM-DD')
@@ -89,22 +91,16 @@ class DiagnoseHistory extends React.Component {
         // 重构genetic_mutation_type
         const genetic_mutation_type = {}
 
-        if (values.genetic_mutation_type) {
-          for (const type in values.genetic_mutation_type) {
-            if (values.genetic_mutation_type[type] === true) {
-              genetic_mutation_type[`genetic_mutation_type[${type}]`] = 'on'
-            }
-          }
-          genetic_mutation_type['genetic_mutation_type[ALK]_other'] = values.genetic_mutation_type.ALK._other
-          genetic_mutation_type['genetic_mutation_type[EGFR]_other'] = values.genetic_mutation_type.EGFR._other
-          if (values.genetic_mutation_type.ALK._ALK) {
-            genetic_mutation_type['genetic_mutation_type[ALK]'] = 'on'
-          }
-          if (values.genetic_mutation_type.EGFR._EGFR) {
-            genetic_mutation_type['genetic_mutation_type[EGFR]'] = 'on'
-          }
-          values.genetic_mutation_type = genetic_mutation_type
+        genetic_mutation_type['genetic_mutation_type[其他]_other'] = values.genetic_mutation_type['其他']._other
+        if (values.genetic_mutation_type['其他']._other) {
+          genetic_mutation_type['genetic_mutation_type[其他]'] = 'on'
         }
+        for (const type in values.genetic_mutation_type) {
+          if (values.genetic_mutation_type[type] === true) {
+            genetic_mutation_type[`genetic_mutation_type[${type}]`] = 'on'
+          }
+        }
+        values.genetic_mutation_type = genetic_mutation_type
 
         // 重构last_front_part
         const last_front_part = {}
@@ -127,7 +123,8 @@ class DiagnoseHistory extends React.Component {
             delete values[type]
           }
         }
-
+        values.id = record.id
+        // console.log('values', values)
         const { dispatch } = this.props
         const sample_id = getSampleId()
 
@@ -146,8 +143,10 @@ class DiagnoseHistory extends React.Component {
   }
 
   handleEditModel = record => {
+    // console.log('record', record)
     this.setState(
       {
+        diagnose_id: record.id,
         diagnose_number: record.diagnose_number,
         diagnose_existence: record.diagnose_existence
       },
@@ -307,6 +306,8 @@ class DiagnoseHistory extends React.Component {
       labelAfter = '五线治疗'
     }
 
+    // console.log(diagnose_history)
+
     return (
       <>
         <Button type="primary" onClick={() => this.handleEditModel({ diagnose_number: 1, diagnose_existence: 0 })}>
@@ -315,7 +316,7 @@ class DiagnoseHistory extends React.Component {
         <Table
           loading={tableLoading}
           className={styles.patient_report_table}
-          rowKey="diagnose_number"
+          rowKey="id"
           size="small"
           bordered
           pagination={false}
@@ -555,91 +556,32 @@ class DiagnoseHistory extends React.Component {
                     </Form.Item>
                     <Form.Item label="基因突变类型">
                       <Form.Item style={{ display: 'inline-block' }}>
-                        {getFieldDecorator('genetic_mutation_type[未测]', {
-                          initialValue: record['genetic_mutation_type[未测]'] === 'on',
+                        {getFieldDecorator('genetic_mutation_type[EGFR 19号外显子插入异变]', {
+                          initialValue: record['genetic_mutation_type[EGFR 19号外显子插入异变]'] === 'on',
                           valuePropName: 'checked'
-                        })(<Checkbox onClick={() => this.clearGeneticConflictCheckbox(0)}>未测</Checkbox>)}
+                        })(<Checkbox>EGFR 19号外显子插入异变</Checkbox>)}
+                      </Form.Item>
+                      <Form.Item style={{ display: 'inline-block' }}>
+                        {getFieldDecorator('genetic_mutation_type[EGFR 21号外显子插入异变]', {
+                          initialValue: record['genetic_mutation_type[EGFR 21号外显子插入异变]'] === 'on',
+                          valuePropName: 'checked'
+                        })(<Checkbox>EGFR 21号外显子插入异变</Checkbox>)}
+                      </Form.Item>
+                      <Form.Item style={{ display: 'inline-block' }}>
+                        {getFieldDecorator('genetic_mutation_type[EGFR 20号外显子置换异变(T790M)]', {
+                          initialValue: record['genetic_mutation_type[EGFR 20号外显子置换异变(T790M)]'] === 'on',
+                          valuePropName: 'checked'
+                        })(<Checkbox>EGFR 20号外显子置换异变(T790M)</Checkbox>)}
                       </Form.Item>
                       <Form.Item className={styles.from_item}>
-                        {getFieldDecorator('genetic_mutation_type[不详]', {
-                          initialValue: record['genetic_mutation_type[不详]'] === 'on',
+                        {getFieldDecorator('genetic_mutation_type[其他]', {
+                          initialValue: record['genetic_mutation_type[其他]'] === 'on',
                           valuePropName: 'checked'
-                        })(<Checkbox onClick={() => this.clearGeneticConflictCheckbox(1)}>不详</Checkbox>)}
-                      </Form.Item>
-                      <Form.Item className={styles.from_item}>
-                        {getFieldDecorator('genetic_mutation_type[无突变]', {
-                          initialValue: record['genetic_mutation_type[无突变]'] === 'on',
-                          valuePropName: 'checked'
-                        })(<Checkbox onClick={() => this.clearGeneticConflictCheckbox(2)}>无突变</Checkbox>)}
-                      </Form.Item>
-                      <Form.Item className={styles.from_item}>
-                        {getFieldDecorator('genetic_mutation_type[ROS-1]', {
-                          initialValue: record['genetic_mutation_type[ROS-1]'] === 'on',
-                          valuePropName: 'checked'
-                        })(<Checkbox onClick={this.clearGeneticConflictCheckbox}>ROS-1</Checkbox>)}
-                      </Form.Item>
-                      <Form.Item className={styles.from_item}>
-                        {getFieldDecorator('genetic_mutation_type[cMET]', {
-                          initialValue: record['genetic_mutation_type[cMET]'] === 'on',
-                          valuePropName: 'checked'
-                        })(<Checkbox onClick={this.clearGeneticConflictCheckbox}>cMET</Checkbox>)}
-                      </Form.Item>
-                      <Form.Item className={styles.from_item}>
-                        {getFieldDecorator('genetic_mutation_type[BRAF]', {
-                          initialValue: record['genetic_mutation_type[BRAF]'] === 'on',
-                          valuePropName: 'checked'
-                        })(<Checkbox onClick={this.clearGeneticConflictCheckbox}>BRAF</Checkbox>)}
-                      </Form.Item>
-                      <Form.Item className={styles.from_item}>
-                        {getFieldDecorator('genetic_mutation_type[KRAS]', {
-                          initialValue: record['genetic_mutation_type[KRAS]'] === 'on',
-                          valuePropName: 'checked'
-                        })(<Checkbox onClick={this.clearGeneticConflictCheckbox}>KRAS</Checkbox>)}
-                      </Form.Item>
-                      <Form.Item className={styles.from_item}>
-                        {getFieldDecorator('genetic_mutation_type[Her-2]', {
-                          initialValue: record['genetic_mutation_type[Her-2]'] === 'on',
-                          valuePropName: 'checked'
-                        })(<Checkbox onClick={this.clearGeneticConflictCheckbox}>Her-2</Checkbox>)}
-                      </Form.Item>
-                      <Form.Item className={styles.from_item}>
-                        {getFieldDecorator('genetic_mutation_type[RET]', {
-                          initialValue: record['genetic_mutation_type[RET]'] === 'on',
-                          valuePropName: 'checked'
-                        })(<Checkbox onClick={this.clearGeneticConflictCheckbox}>RET</Checkbox>)}
-                      </Form.Item>
-                      <Form.Item className={styles.from_item}>
-                        {getFieldDecorator('genetic_mutation_type[ERBB2]', {
-                          initialValue: record['genetic_mutation_type[ERBB2]'] === 'on',
-                          valuePropName: 'checked'
-                        })(<Checkbox onClick={this.clearGeneticConflictCheckbox}>ERBB2</Checkbox>)}
-                      </Form.Item>
-                      <Form.Item className={styles.from_item}>
-                        {getFieldDecorator('genetic_mutation_type[TP53]', {
-                          initialValue: record['genetic_mutation_type[TP53]'] === 'on',
-                          valuePropName: 'checked'
-                        })(<Checkbox onClick={this.clearGeneticConflictCheckbox}>TP53</Checkbox>)}
-                      </Form.Item>
-                      <Form.Item className={styles.from_item}>
-                        {getFieldDecorator('genetic_mutation_type[EGFR]_EGFR', {
-                          initialValue: record['genetic_mutation_type[EGFR]'] === 'on',
-                          valuePropName: 'checked'
-                        })(<Checkbox onClick={this.clearGeneticConflictCheckbox}>EGFR</Checkbox>)}
+                        })(<Checkbox>其他</Checkbox>)}
                         <div style={{ display: 'inline-block' }}>
-                          {getFieldDecorator('genetic_mutation_type[EGFR]_other', {
-                            initialValue: record['genetic_mutation_type[EGFR]_other']
-                          })(<Input style={{ width: 200 }} placeholder="EGFR描述" />)}
-                        </div>
-                      </Form.Item>
-                      <Form.Item style={{ display: 'inline-block', marginLeft: '20px' }}>
-                        {getFieldDecorator('genetic_mutation_type[ALK]_ALK', {
-                          initialValue: record['genetic_mutation_type[ALK]'] === 'on',
-                          valuePropName: 'checked'
-                        })(<Checkbox onClick={this.clearGeneticConflictCheckbox}>ALK</Checkbox>)}
-                        <div style={{ display: 'inline-block' }}>
-                          {getFieldDecorator('genetic_mutation_type[ALK]_other', {
-                            initialValue: record['genetic_mutation_type[ALK]_other']
-                          })(<Input style={{ width: 200 }} placeholder="ALK描述" />)}
+                          {getFieldDecorator('genetic_mutation_type[其他]_other', {
+                            initialValue: record['genetic_mutation_type[其他]_other']
+                          })(<Input style={{ width: 200 }} placeholder="其他描述" />)}
                         </div>
                       </Form.Item>
                     </Form.Item>
@@ -648,7 +590,7 @@ class DiagnoseHistory extends React.Component {
                         initialValue: record.PDL1
                       })(
                         <Radio.Group>
-                          <Radio value={0}>未测</Radio>
+                          {/* <Radio value={0}>未测</Radio> */}
                           <Radio value={1}>不详</Radio>
                           <Radio value={2}>&gt;50%</Radio>
                           <Radio value={3}>1%-50%</Radio>
@@ -662,7 +604,7 @@ class DiagnoseHistory extends React.Component {
                         initialValue: record.tmb
                       })(
                         <Radio.Group onChange={e => this.handleStateChange('tmb', e)}>
-                          <Radio value="未测">未测</Radio>
+                          {/* <Radio value="未测">未测</Radio> */}
                           <Radio value="不详">不详</Radio>
                           <Radio value="其他">
                             数量(个突变/Mb)
@@ -682,7 +624,7 @@ class DiagnoseHistory extends React.Component {
                         initialValue: record.msi
                       })(
                         <Radio.Group>
-                          <Radio value={0}>未测</Radio>
+                          {/* <Radio value={0}>未测</Radio> */}
                           <Radio value={1}>不详</Radio>
                           <Radio value={2}>微卫星稳定型</Radio>
                           <Radio value={3}>微卫星不稳定型</Radio>

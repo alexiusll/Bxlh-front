@@ -14,6 +14,6 @@ export const getSampleId = () => {
 
 export const getProjectId = () => {
   const { pathname } = window.location
-
+  // console.log(parseInt(pathname[pathname.indexOf('p') + 1]))
   return parseInt(pathname[pathname.indexOf('p') + 1])
 }

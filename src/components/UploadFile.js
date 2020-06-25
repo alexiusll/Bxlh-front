@@ -29,7 +29,7 @@ export default class UploadFile extends React.Component {
       message.error('该访视已提交，暂不能上传文件!')
       return
     }
-    if (!CookieUtil.get('token_1')) {
+    if (!CookieUtil.get('token_2')) {
       message.error('登陆状态过期，请重新登陆!')
       return false
     }
@@ -51,7 +51,7 @@ export default class UploadFile extends React.Component {
         action={post_prefix + action}
         method="POST"
         beforeUpload={this.beforeUpload}
-        headers={{ Authorization: `Bearer ${CookieUtil.get('token_1')}` }}
+        headers={{ Authorization: `Bearer ${CookieUtil.get('token_2')}` }}
         listType="text"
         multiple={multiple}
         name="file"

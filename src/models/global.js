@@ -18,7 +18,7 @@ const Model = {
 
   effects: {
     *fetchResearchCenters(_, { call, put }) {
-      const data = yield call(FetchResearchCenters, { project_id: 1 })
+      const data = yield call(FetchResearchCenters, { project_id: 2 })
 
       if (data) {
         yield put({

@@ -15,9 +15,10 @@ export async function FetchNavInfo({ sample_id }) {
 }
 
 // 增加cycle记录
-export async function AddCycle({ sample_id }) {
+export async function AddCycle({ sample_id, is_stopped_cycle }) {
   return request(`/cycle/${sample_id}`, {
-    method: 'POST'
+    method: 'POST',
+    data: { is_stopped_cycle: is_stopped_cycle }
   })
 }
 

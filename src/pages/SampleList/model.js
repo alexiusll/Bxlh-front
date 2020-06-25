@@ -66,7 +66,7 @@ const Model = {
 
     *fetchSampleInfo({ payload }, { call, put }) {
       const data = yield call(FetchSampleInfo, payload)
-
+      // console.log(data)
       if (data) {
         yield put({
           type: 'save',

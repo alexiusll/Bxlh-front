@@ -3,8 +3,8 @@ import CookieUtil from '../utils/cookie'
 import request, { post_prefix } from '../utils/request'
 
 // 获取样本列表
-export async function FetchExpsampleList({ project_id, body }) {
-  return request(`/sample/${project_id}`, {
+export async function FetchExpsampleList({ body }) {
+  return request(`/sample`, {
     method: 'GET',
     params: body
   })
@@ -12,7 +12,8 @@ export async function FetchExpsampleList({ project_id, body }) {
 
 // 获取部分项目的展示信息
 export async function FetchSampleInfo({ project_id }) {
-  return request(`/expSample_div_info/${project_id}`, {
+  // console.log(project_id)
+  return request(`/v1/project/${project_id}`, {
     method: 'GET'
   })
 }
@@ -58,7 +59,7 @@ export async function DownloadSample(body) {
       getResponse: true,
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${CookieUtil.get('token_1')}`
+        Authorization: `Bearer ${CookieUtil.get('token_2')}`
       },
       data: body
     })

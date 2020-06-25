@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'dva'
+import { Link } from 'umi'
 import PropTypes from 'prop-types'
 import router from 'umi/router'
 import {
@@ -484,7 +485,7 @@ class SampleList extends React.Component {
       width: 80,
       render: (_, record) => {
         const disabled = record.submit_status === 2
-        const is_center = this.research_center_id === 1
+        const is_center = this.research_center_id === 12
         const { user_permission } = this.props
 
         // 部分提交 或 已提交 不可以编辑
@@ -499,7 +500,7 @@ class SampleList extends React.Component {
                 </Menu.Item>
                 <Menu.Item
                   key="submit"
-                  disabled={(is_center ? record.research_center_id !== 1 : disabled) || record.submit_status === 2}
+                  disabled={(is_center ? record.research_center_id !== 12 : disabled) || record.submit_status === 2}
                 >
                   提交
                 </Menu.Item>
@@ -517,10 +518,14 @@ class SampleList extends React.Component {
             }
           >
             <Button type="primary" size="small">
-              <a href={`/p1/#/sample/${record.sample_id}/crf`}>
+              <Link to={`/sample/${record.sample_id}/crf`}>
                 详情
                 <Icon type="down" />
-              </a>
+              </Link>
+              {/* <a href={`/p2/#/sample/${record.sample_id}/crf`}>
+                详情
+                <Icon type="down" />
+              </a> */}
             </Button>
           </Dropdown>
         )
@@ -574,13 +579,13 @@ class SampleList extends React.Component {
             itemList={[
               { id: -1, name: '全部' },
               { id: 0, name: '腺癌' },
-              { id: 1, name: '鳞癌' },
-              { id: 2, name: '小细胞肺癌' },
-              { id: 3, name: '大细胞癌' },
-              { id: 4, name: '神经内分泌癌' },
-              { id: 5, name: '肉瘤' },
-              { id: 6, name: '分化差的癌' },
-              { id: 7, name: '混合型癌' }
+              // { id: 1, name: '鳞癌' },
+              // { id: 2, name: '小细胞肺癌' },
+              // { id: 3, name: '大细胞癌' },
+              // { id: 4, name: '神经内分泌癌' },
+              // { id: 5, name: '肉瘤' },
+              // { id: 6, name: '分化差的癌' },
+              { id: 7, name: '其他' }
             ]}
             handleChange={id => this.refreshList({ tumor_pathological_type: id, page: 1 })}
           />
@@ -616,7 +621,7 @@ class SampleList extends React.Component {
       }
     ]
 
-    if (this.research_center_id === 1) {
+    if (this.research_center_id === 12) {
       filterList.unshift({
         text: '研究中心：',
         render: (
@@ -626,6 +631,15 @@ class SampleList extends React.Component {
           />
         )
       })
+    }
+
+    // console.log(sample_info)
+    // console.log('research_center_info', research_center_info)
+    let research_center_ids = ''
+    for (const item of research_center_info) {
+      if (item.id === sample_info.research_center_id) {
+        research_center_ids = item.name
+      }
     }
 
     return (
@@ -642,9 +656,9 @@ class SampleList extends React.Component {
           <Col>
             <Spin spinning={infoLoading}>
               <div className={styles.sample_info}>
-                {sample_info.description}&nbsp;&nbsp;&nbsp; 编号：
+                {sample_info.project_des}&nbsp;&nbsp;&nbsp; 编号：
                 {sample_info.project_ids}&nbsp;&nbsp;&nbsp; 负责单位：
-                {sample_info.research_center_ids}
+                {research_center_ids}
               </div>
             </Spin>
           </Col>

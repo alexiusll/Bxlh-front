@@ -57,7 +57,7 @@ class CRFDetail extends React.Component {
     if (keyPath[0] === 'add') {
       dispatch({
         type: 'crfBase/addCycle',
-        payload: { sample_id }
+        payload: { sample_id, is_stopped_cycle: 0 }
       })
         .then(() =>
           dispatch({
@@ -131,10 +131,14 @@ class CRFDetail extends React.Component {
       IsSameRc = false
     }
 
+    // 接口正确后删除
+    IsSameRc = true
+
     // console.log('research_center_id', this.research_center_id)
     // console.log('research_center_name', this.research_center_name)
     // console.log('research_center_ids', research_center_ids)
-
+    // console.log('nav_info', nav_info)
+    // console.log('selectedKeys', selectedKeys)
     let crf_body
 
     if (selectedKeys[0] === 'first_diagnose') {
@@ -150,6 +154,8 @@ class CRFDetail extends React.Component {
       crf_body = <InterviewTable />
     } else if (selectedKeys[0] === 'summary_table') {
       crf_body = <SummaryTable />
+    } else if (selectedKeys[0] === 'cycle_end_record') {
+      crf_body = <CycleRecord cycle_number={0} key={0} />
     }
 
     return (
@@ -228,6 +234,12 @@ class CRFDetail extends React.Component {
                     <></>
                   )}{' '}
                 </SubMenu>
+                <Menu.Item key="cycle_end_record">
+                  <span>
+                    <Icon type="dashboard" />
+                    治疗期终止随访
+                  </span>
+                </Menu.Item>
                 <Menu.Item key="interview_table">
                   <span>
                     <Icon type="hourglass" />

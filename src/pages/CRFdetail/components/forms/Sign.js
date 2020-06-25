@@ -78,8 +78,6 @@ class Sign extends React.Component {
 
   render() {
     const { crfbase_sign, crf_cycle_sign, cycle_number, research_center_info } = this.props
-    const infoText = cycle_number === 1 ? '基线资料' : `访视${cycle_number}`
-
     const user_signature = CookieUtil.get('user_signature')
     const userInfo = JSON.parse(CookieUtil.get('userInfo'))
     const { name, research_center_name } = userInfo || {}
@@ -89,6 +87,15 @@ class Sign extends React.Component {
     const submitLoading = this.props.loading.effects['crfBase/postBaseSignature']
     const base_loading = this.props.loading.effects['crfBase/fetchBaseSignature']
     const cycle_loading = this.props.loading.effects['crf_cycle_record/fetchCycleSignature']
+
+    let infoText = ''
+    if (cycle_number === 1) {
+      infoText = '基线资料'
+    } else if (cycle_number === 0) {
+      infoText = '治疗期终止随访'
+    } else {
+      infoText = `访视${cycle_number}`
+    }
 
     let other_research_center_name = ''
 

@@ -31,7 +31,7 @@ class CycleRecord extends React.PureComponent {
 
     dispatch({
       type: 'crf_cycle_record/fetchMainSymptom',
-      payload: { sample_id, cycle_number }
+      payload: { sample_id, cycle_number: cycle_number }
     })
     dispatch({
       type: 'crf_cycle_record/fetchTreatmentRecord',
