@@ -79,8 +79,11 @@ const Model = {
 
       if (data) {
         const { cycle_number } = payload
-
-        message.success(`提交${cycle_number === 1 ? '基线资料' : '访视' + cycle_number}成功！`)
+        if (cycle_number === 0) {
+          message.success(`提交治疗期终止访视成功！`)
+        } else {
+          message.success(`提交${cycle_number === 1 ? '基线资料' : '访视' + cycle_number}成功！`)
+        }
       }
     },
 

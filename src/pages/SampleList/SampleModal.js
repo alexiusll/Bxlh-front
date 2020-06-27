@@ -108,7 +108,7 @@ class SampleModal extends React.Component {
               ]
             })(<Input placeholder="请输入身份证号" />)}
           </Form.Item>
-          <Form.Item label="患者组别">
+          {/* <Form.Item label="患者组别">
             {getFieldDecorator('group_id', {
               initialValue: record.group_id,
               rules: [{ required: true, message: '请选择患者组别' }]
@@ -121,7 +121,7 @@ class SampleModal extends React.Component {
                 <Option value={5}>其他</Option>
               </Select>
             )}
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item label="性别">
             {getFieldDecorator('sex', {
               initialValue: record.sex,
@@ -147,10 +147,10 @@ class SampleModal extends React.Component {
               rules: [{ required: true, message: '请选择签署同意书日期' }]
             })(<DatePicker format={'YYYY-MM-DD'} disabledDate={disabledDateAfterToday} placeholder="请选择日期" />)}
           </Form.Item>
-          <Form.Item label="入组日期">
+          <Form.Item label="检查日期">
             {getFieldDecorator('in_group_time', {
               initialValue: record.in_group_time ? moment(record.in_group_time, 'YYYY-MM-DD') : null,
-              rules: [{ required: true, message: '请选择入组日期' }]
+              rules: [{ required: true, message: '请选择检查日期' }]
             })(<DatePicker format={'YYYY-MM-DD'} disabledDate={disabledDateAfterToday} placeholder="请选择日期" />)}
           </Form.Item>
           <Divider className={styles.modal_divider} />

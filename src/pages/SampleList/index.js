@@ -409,15 +409,16 @@ class SampleList extends React.Component {
         let interviews = 0
 
         // 记录治疗期访视提交条数
-
         record.status.interview_status.forEach(i => {
           if (i.is_submit === 1) interviews++
         })
 
         // 获得最大的治疗期访视
-        let max_cycle_submit = -1
-        record.status.cycle_status.forEach((i, index) => {
-          if (i.is_submit === 1 && index != 0) max_cycle_submit = index
+        let max_cycle_submit = 0
+        let end_cycle_submit = false
+        record.status.cycle_status.forEach(i => {
+          if (i.is_submit === 1 && i.cycle_number != 0) max_cycle_submit++
+          if (i.is_submit === 1 && i.cycle_number == 0) end_cycle_submit = true
         })
 
         const content = (
@@ -432,10 +433,18 @@ class SampleList extends React.Component {
             </div>
             <div>
               治疗期访视：
-              {max_cycle_submit == -1 ? (
+              {max_cycle_submit == 0 ? (
                 <span style={{ color: '#faad14' }}>未提交</span>
               ) : (
                 <span style={{ color: '#52c41a' }}>访视{max_cycle_submit + 1}已提交</span>
+              )}
+            </div>
+            <div>
+              治疗期终止访视：
+              {!end_cycle_submit ? (
+                <span style={{ color: '#faad14' }}>未提交</span>
+              ) : (
+                <span style={{ color: '#52c41a' }}>已提交</span>
               )}
             </div>
             <div>
@@ -552,7 +561,7 @@ class SampleList extends React.Component {
       sample_info,
       sample_list,
       research_center_info,
-      group_ids_info,
+      // group_ids_info,
       loading,
       user_permission
     } = this.props
@@ -563,15 +572,15 @@ class SampleList extends React.Component {
     const filterLoading = loading.effects['global/fetchResearchCenters'] || loading.effects['global/fetchPatientGroup']
     // console.log(sample_list)
     const filterList = [
-      {
-        text: '患者组别：',
-        render: (
-          <CheckTags
-            itemList={[{ id: -1, name: '全部' }, ...group_ids_info]}
-            handleChange={id => this.refreshList({ group_id: id, page: 1 })}
-          />
-        )
-      },
+      // {
+      //   text: '患者组别：',
+      //   render: (
+      //     <CheckTags
+      //       itemList={[{ id: -1, name: '全部' }, ...group_ids_info]}
+      //       handleChange={id => this.refreshList({ group_id: id, page: 1 })}
+      //     />
+      //   )
+      // },
       {
         text: '肿瘤病理类型：',
         render: (

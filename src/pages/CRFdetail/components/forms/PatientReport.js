@@ -165,7 +165,7 @@ class PatientReport extends React.Component {
           footer={null}
         >
           <Form labelCol={{ span: 6 }} wrapperCol={{ span: 18 }} onSubmit={this.handleSubmit}>
-            <Form.Item label="入组日期">
+            <Form.Item label="检查日期">
               {getFieldDecorator('time', {
                 initialValue: record.time ? moment(record.time, 'YYYY-MM-DD') : null
               })(<DatePicker format="YYYY-MM-DD" />)}

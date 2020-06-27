@@ -474,8 +474,8 @@ class AdverseTable extends React.Component {
                 </Form.Item>
                 <Form.Item label="SAE转归">
                   <Radio.Group value={record.SAE_recover}>
-                    <Radio value={0}>症状消失后无后遗症</Radio>
-                    <Radio value={1}>症状消失后有后遗症</Radio>
+                    <Radio value={0}>症状消失无后遗症</Radio>
+                    <Radio value={1}>症状消失有后遗症</Radio>
                     <Radio value={2}>症状持续</Radio>
                   </Radio.Group>
                 </Form.Item>

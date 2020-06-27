@@ -368,7 +368,7 @@ class PhotoEvaluate extends React.Component {
                   <Radio value="X线平片">X线平片</Radio>
                   <Radio value="PET-CT">PET-CT</Radio>
                   <Radio value="其他">
-                    数量(个突变/Mb)
+                    其他
                     {method === '其他' || (method === '' && record.method === '其他') ? (
                       <div style={{ display: 'inline-block' }}>
                         {getFieldDecorator('method_other', {

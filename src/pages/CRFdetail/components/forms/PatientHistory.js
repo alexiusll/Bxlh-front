@@ -81,13 +81,13 @@ class PatientHistory extends React.Component {
           }
         }
         // 过滤日期传值
-        if (values.drinking_quit_time) {
-          values.drinking_quit_time = values.drinking_quit_time.format('YYYY-MM-DD')
-        }
+        // if (values.drinking_quit_time) {
+        //   values.drinking_quit_time = values.drinking_quit_time.format('YYYY-MM-DD')
+        // }
 
-        if (values.smoke_quit_time) {
-          values.smoke_quit_time = values.smoke_quit_time.format('YYYY-MM-DD')
-        }
+        // if (values.smoke_quit_time) {
+        //   values.smoke_quit_time = values.smoke_quit_time.format('YYYY-MM-DD')
+        // }
         // 重构烟酒史传值
         const smoke = {}
         const drinking = {}
@@ -400,10 +400,8 @@ class PatientHistory extends React.Component {
                 <Form.Item className={styles.smock_item}>
                   戒烟时间：
                   {getFieldDecorator('smoke_quit_time', {
-                    initialValue: patient_history.smoke_quit_time
-                      ? moment(patient_history.smoke_quit_time, 'YYYY-MM-DD')
-                      : null
-                  })(<DatePicker format="YYYY-MM-DD" />)}
+                    initialValue: patient_history.smoke_quit_time ? patient_history.smoke_quit_time : null
+                  })(<Input style={{ width: 200, marginLeft: 15 }} placeholder="" />)}
                 </Form.Item>
               ) : null}
             </>
@@ -475,10 +473,8 @@ class PatientHistory extends React.Component {
                 <Form.Item className={styles.drinking_item}>
                   戒酒时间：
                   {getFieldDecorator('drinking_quit_time', {
-                    initialValue: patient_history.drinking_quit_time
-                      ? moment(patient_history.drinking_quit_time, 'YYYY-MM-DD')
-                      : null
-                  })(<DatePicker format="YYYY-MM-DD" />)}
+                    initialValue: patient_history.drinking_quit_time ? patient_history.drinking_quit_time : null
+                  })(<Input style={{ width: 200, marginLeft: 15 }} placeholder="" />)}
                 </Form.Item>
               ) : null}
             </>

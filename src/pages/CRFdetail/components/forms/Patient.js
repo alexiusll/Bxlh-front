@@ -101,7 +101,7 @@ class Patient extends React.Component {
             initialValue: patient.date ? moment(patient.date, 'YYYY-MM-DD') : null
           })(<DatePicker format="YYYY-MM-DD" />)}
         </Form.Item>
-        <Form.Item label="人种">
+        {/* <Form.Item label="人种">
           {getFieldDecorator('race', {
             initialValue: patient.race
           })(
@@ -117,7 +117,7 @@ class Patient extends React.Component {
               </Radio>
             </Radio.Group>
           )}
-        </Form.Item>
+        </Form.Item> */}
         <Form.Item label="婚姻情况">
           {getFieldDecorator('marriage', {
             initialValue: patient.marriage

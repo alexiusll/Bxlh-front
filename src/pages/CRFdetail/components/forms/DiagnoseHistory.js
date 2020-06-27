@@ -87,20 +87,21 @@ class DiagnoseHistory extends React.Component {
           }
           values.diagnose_method = diagnose_method
         }
-
+        console.log(values)
         // 重构genetic_mutation_type
         const genetic_mutation_type = {}
-
-        genetic_mutation_type['genetic_mutation_type[其他]_other'] = values.genetic_mutation_type['其他']._other
-        if (values.genetic_mutation_type['其他']._other) {
-          genetic_mutation_type['genetic_mutation_type[其他]'] = 'on'
-        }
-        for (const type in values.genetic_mutation_type) {
-          if (values.genetic_mutation_type[type] === true) {
-            genetic_mutation_type[`genetic_mutation_type[${type}]`] = 'on'
+        if (values.genetic_mutation_type != undefined) {
+          genetic_mutation_type['genetic_mutation_type[其他]_other'] = values.genetic_mutation_type['其他']._other
+          if (values.genetic_mutation_type['其他']._other) {
+            genetic_mutation_type['genetic_mutation_type[其他]'] = 'on'
           }
+          for (const type in values.genetic_mutation_type) {
+            if (values.genetic_mutation_type[type] === true) {
+              genetic_mutation_type[`genetic_mutation_type[${type}]`] = 'on'
+            }
+          }
+          values.genetic_mutation_type = genetic_mutation_type
         }
-        values.genetic_mutation_type = genetic_mutation_type
 
         // 重构last_front_part
         const last_front_part = {}
