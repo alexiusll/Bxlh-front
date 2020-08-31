@@ -52,15 +52,15 @@ const config = {
   pre: 'http://39.106.111.52/p2/api',
   pre_auth: 'http://39.106.111.52/api',
   // 预生产预览环境  阿里云的测试服务器2
-  // pre1: 'http://39.96.191.139:82',
-  // pre1_auth: 'http://39.96.191.139:81',
+  pre1: 'http://39.96.191.139:83',
+  pre1_auth: 'http://39.96.191.139:81',
   // 生产环境地址
-  prod: 'http://www.rayplus.top:82',
+  prod: 'http://www.rayplus.top:83',
   prod_auth: 'http://www.rayplus.top:81'
 }
 
 const { NODE_ENV } = process.env
-const ENV = 'pre'
+const ENV = 'prod'
 
 export const post_prefix = config[ENV]
 

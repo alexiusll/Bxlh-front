@@ -113,8 +113,8 @@ export function ModifyDiagnoseHistory({ sample_id, body }) {
 }
 
 // 删除治疗史
-export function DeleteDiagnoseHistory({ sample_id, diagnose_number }) {
-  return request(`/diagnose_history/${sample_id}/${diagnose_number}`, {
+export function DeleteDiagnoseHistory({ sample_id, diagnose_id }) {
+  return request(`/diagnose_history/${sample_id}/${diagnose_id}`, {
     method: 'DELETE'
   })
 }
@@ -138,5 +138,35 @@ export function ModifyPatientReportTable({ sample_id, body }) {
 export function DeletePatientReportTable({ sample_id, report_id }) {
   return request(`/patient_report/${sample_id}/${report_id}`, {
     method: 'DELETE'
+  })
+}
+
+// 获取入选标准表单
+export function FetchInclusionCriteria({ sample_id }) {
+  return request(`/inclusion_criteria/${sample_id}`, {
+    method: 'GET'
+  })
+}
+
+// 添加或修改入选标准
+export function ModifyInclusionCriteria({ sample_id, body }) {
+  return request(`/inclusion_criteria/${sample_id}`, {
+    method: 'POST',
+    data: body
+  })
+}
+
+// 获取入选标准表单
+export function FetchExclusionCriteria({ sample_id }) {
+  return request(`/exclusion_criteria/${sample_id}`, {
+    method: 'GET'
+  })
+}
+
+// 添加或修改入选标准
+export function ModifyExclusionCriteria({ sample_id, body }) {
+  return request(`/exclusion_criteria/${sample_id}`, {
+    method: 'POST',
+    data: body
   })
 }

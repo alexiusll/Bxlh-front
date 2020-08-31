@@ -1,5 +1,5 @@
 import { message } from 'antd'
-import { FetchResearchCenters, FetchPatientGroup, FetchSignature, PostSignature, DeleteFile } from '../services/global'
+import { FetchResearchCenters, FetchSignature, PostSignature, DeleteFile } from '../services/global'
 import CookieUtil from '@/utils/cookie'
 
 const Model = {
@@ -28,24 +28,24 @@ const Model = {
       }
     },
 
-    *fetchPatientGroup({ payload }, { call, put }) {
-      const data = yield call(FetchPatientGroup, payload)
+    // *fetchPatientGroup({ payload }, { call, put }) {
+    //   const data = yield call(FetchPatientGroup, payload)
 
-      if (data) {
-        yield put({
-          type: 'save',
-          payload: {
-            group_ids_info: data
-          }
-        })
-      }
-    },
+    //   if (data) {
+    //     yield put({
+    //       type: 'save',
+    //       payload: {
+    //         group_ids_info: data
+    //       }
+    //     })
+    //   }
+    // },
 
     *fetchSignature(_, { call }) {
       const data = yield call(FetchSignature)
 
       if (data && data.file_path !== undefined) {
-        CookieUtil.set('user_signature', data.file_path, new Date(+new Date() + 24 * 60 * 60 * 1000))
+        CookieUtil.set('user_signature_2', data.file_path, new Date(+new Date() + 24 * 60 * 60 * 1000))
       }
     },
 

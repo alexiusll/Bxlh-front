@@ -373,7 +373,7 @@ class PhotoEvaluate extends React.Component {
                       <div style={{ display: 'inline-block' }}>
                         {getFieldDecorator('method_other', {
                           initialValue: record.method_other
-                        })(<Input style={{ width: 200, marginLeft: 15 }} placeholder="请输入数量" />)}
+                        })(<Input style={{ width: 200, marginLeft: 15 }} placeholder="请输入影像类型" />)}
                       </div>
                     ) : null}
                   </Radio>

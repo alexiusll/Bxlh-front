@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { Col, Form, DatePicker, Button, Radio, Input, message } from 'antd'
 import moment from 'moment'
 import { getSampleId } from '@/utils/location'
+import { getBirthDay } from '@/utils/date'
 
 const formItemLayout = {
   labelCol: { span: 3 },
@@ -17,7 +18,9 @@ class Patient extends React.Component {
     this.state = {
       marriage: '',
       vocation: '',
-      race: ''
+      race: '',
+      id_num: '',
+      birthday: ''
     }
     this.marriage_input = React.createRef()
     this.vocation_input = React.createRef()
@@ -78,11 +81,21 @@ class Patient extends React.Component {
     })
   }
 
+  componentDidMount() {
+    const { patient } = this.props.crf_first_diagnose
+    this.setState({ birthday: getBirthDay(patient.id_num) })
+  }
+
+  onIdNumberChange(e) {
+    // console.log('value', e.target.value)
+    this.setState({ birthday: getBirthDay(e.target.value) })
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form
     const { patient } = this.props.crf_first_diagnose
     const submitLoading = this.props.loading.effects['crf_first_diagnose/modifyPatient']
-    const { marriage, vocation, race } = this.state
+    const { marriage, vocation, birthday } = this.state
 
     return (
       <Form {...formItemLayout} onSubmit={this.handleSubmit}>
@@ -96,11 +109,12 @@ class Patient extends React.Component {
             </Radio.Group>
           )}
         </Form.Item>
-        <Form.Item label="出生日期">
-          {getFieldDecorator('date', {
-            initialValue: patient.date ? moment(patient.date, 'YYYY-MM-DD') : null
-          })(<DatePicker format="YYYY-MM-DD" />)}
+        <Form.Item label="身份证号">
+          {getFieldDecorator('id_num', {
+            initialValue: patient.id_num
+          })(<Input style={{ width: 250 }} placeholder="请输入身份证号" onChange={e => this.onIdNumberChange(e)} />)}
         </Form.Item>
+        <Form.Item label="出生日期">{birthday}</Form.Item>
         {/* <Form.Item label="人种">
           {getFieldDecorator('race', {
             initialValue: patient.race
@@ -177,11 +191,7 @@ class Patient extends React.Component {
             </Radio.Group>
           )}
         </Form.Item>
-        <Form.Item label="身份证号">
-          {getFieldDecorator('id_num', {
-            initialValue: patient.id_num
-          })(<Input style={{ width: 250 }} placeholder="请输入身份证号" />)}
-        </Form.Item>
+
         <Form.Item label="住院号">
           {getFieldDecorator('hospital_ids', {
             initialValue: patient.hospital_ids

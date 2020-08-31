@@ -37,7 +37,7 @@ class PostCycle extends React.Component {
     if (cycle_number === 1) {
       infoText = '基线资料'
     } else if (cycle_number === 0) {
-      infoText = '治疗期终止随访'
+      infoText = '治疗期中止随访'
     } else {
       infoText = `访视${cycle_number}`
     }

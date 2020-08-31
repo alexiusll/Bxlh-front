@@ -131,7 +131,9 @@ class MainSymptom extends React.Component {
       {
         title: '病状体征和描述',
         dataIndex: 'symptom_description',
-        align: 'center'
+        align: 'center',
+        render: (text, record) =>
+          record.symptom_description_other ? `${text}-${record.symptom_description_other}` : text
       },
       {
         title: '开始时间',
@@ -147,7 +149,7 @@ class MainSymptom extends React.Component {
         title: '存在状态',
         dataIndex: 'existence',
         align: 'center',
-        render: text => (text === '0' ? '存在' : text === '1' ? '消失' : null)
+        render: text => (text === 1 ? '存在' : text === 0 ? '消失' : null)
       },
       {
         title: '操作',
@@ -251,12 +253,12 @@ class MainSymptom extends React.Component {
                 initialValue: record.existence
               })(
                 <Radio.Group onChange={e => this.handleStateChange('existence', e)}>
-                  <Radio value="0">存在</Radio>
-                  <Radio value="1">消失</Radio>
+                  <Radio value={1}>存在</Radio>
+                  <Radio value={0}>消失</Radio>
                 </Radio.Group>
               )}
             </Form.Item>
-            {existence === '1' ? (
+            {existence === 1 ? (
               <Form.Item label="结束时间">
                 {getFieldDecorator('end_time', {
                   initialValue: record.end_time ? moment(record.end_time, 'YYYY-MM-DD') : null

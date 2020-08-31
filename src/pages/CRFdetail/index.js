@@ -67,12 +67,45 @@ class CRFDetail extends React.Component {
         )
         .then(() => {
           const { nav_info } = this.props
-
+          let cycle_length = 0
+          for (const index in nav_info) {
+            if (nav_info[index].cycle_number !== 0) {
+              cycle_length++
+            }
+          }
           this.setState({
-            selectedKeys: [`${nav_info.length + 1}`, 'cycle_record']
+            selectedKeys: [`${cycle_length + 1}`, 'cycle_record']
           })
         })
       return
+    }
+
+    if (keyPath[0] === 'add_cycle_end_record') {
+      Modal.confirm({
+        title: `请问是否增加治疗期中止访视？`,
+        okText: '确定',
+        cancelText: '取消',
+        onOk: () =>
+          new Promise(resolve => {
+            dispatch({
+              type: 'crfBase/addCycle',
+              payload: { sample_id, is_stopped_cycle: 1 }
+            })
+              .then(() => {
+                resolve()
+                dispatch({
+                  type: 'crfBase/fetchNavInfo',
+                  payload: { sample_id }
+                })
+              })
+              .then(() => {
+                this.setState({ selectedKeys: ['cycle_end_record'] })
+              })
+          }),
+        onCancel: () => {
+          this.setState({ selectedKeys: ['first_diagnose'] })
+        }
+      })
     }
 
     if (keyPath[0] === 'delete') {
@@ -82,17 +115,23 @@ class CRFDetail extends React.Component {
         message.warning('暂无访视！')
         return
       }
-      const { cycle_number } = nav_info[nav_info.length - 1]
+
+      let cycle_length = 0
+      for (const index in nav_info) {
+        if (nav_info[index].cycle_number !== 0) {
+          cycle_length++
+        }
+      }
 
       Modal.confirm({
-        title: `请问是否确认删除访视${cycle_number}？`,
+        title: `请问是否确认删除访视${cycle_length + 1}？`,
         okText: '确定',
         cancelText: '取消',
         onOk: () =>
           new Promise(resolve => {
             dispatch({
               type: 'crfBase/deleteCycle',
-              payload: { sample_id }
+              payload: { sample_id, cycle_number: cycle_length + 1 }
             }).then(() => {
               resolve()
               dispatch({
@@ -104,15 +143,48 @@ class CRFDetail extends React.Component {
       })
       return
     }
+
+    if (keyPath[0] === 'delete_cycle_end_record') {
+      Modal.confirm({
+        title: `请问是否删除治疗期中止访视？`,
+        okText: '确定',
+        cancelText: '取消',
+        onOk: () =>
+          new Promise(resolve => {
+            dispatch({
+              type: 'crfBase/deleteCycle',
+              payload: { sample_id, cycle_number: 0 }
+            })
+              .then(() => {
+                resolve()
+                dispatch({
+                  type: 'crfBase/fetchNavInfo',
+                  payload: { sample_id }
+                })
+              })
+              .then(() => {
+                this.setState({ selectedKeys: ['first_diagnose'] })
+              })
+          }),
+        onCancel: () => {
+          this.setState({ selectedKeys: ['first_diagnose'] })
+        }
+      })
+    }
     this.setState({ selectedKeys: keyPath })
   }
 
   render() {
-    const { description, patient_name, project_ids, research_center_ids, group_name, patient_ids } = this.props.crf_info
+    const { description, patient_name, project_ids, research_center_ids, patient_ids } = this.props.crf_info
     const { nav_info, research_center_info } = this.props
     const { selectedKeys } = this.state
     const menuLoading = this.props.loading.effects['crfBase/fetchNavInfo']
     const infoLoading = this.props.loading.effects['crfBase/fetchCrfInfo']
+
+    let has_end_cycle = false
+    for (const item of nav_info) {
+      if (item.cycle_number === 0) has_end_cycle = true
+    }
 
     this.research_center_id = JSON.parse(CookieUtil.get('userInfo')).research_center_id
     this.research_center_name = ''
@@ -176,8 +248,7 @@ class CRFDetail extends React.Component {
                 </div>
                 <div>
                   受试者姓名：{patient_name}&nbsp;&nbsp;&nbsp; 受试者编号：
-                  {patient_ids}&nbsp;&nbsp;&nbsp; 组别：{group_name}
-                  &nbsp;&nbsp;&nbsp; 研究中心：{research_center_ids}
+                  {patient_ids}&nbsp;&nbsp;&nbsp;研究中心：{research_center_ids}
                 </div>
               </Spin>
             </div>
@@ -208,12 +279,16 @@ class CRFDetail extends React.Component {
                     </span>
                   }
                 >
-                  {nav_info.map(child => (
-                    <Menu.Item key={child.cycle_number}>
-                      <span>{child.title}</span>
-                    </Menu.Item>
-                  ))}
-                  {IsSameRc ? (
+                  {nav_info.map(child => {
+                    if (child.cycle_number != 0) {
+                      return (
+                        <Menu.Item key={child.cycle_number}>
+                          <span>{child.title}</span>
+                        </Menu.Item>
+                      )
+                    }
+                  })}
+                  {IsSameRc && !has_end_cycle ? (
                     <Menu.Item key="add" disabled={!IsSameRc}>
                       <span style={{ color: '#39bbdb' }}>
                         新增&nbsp;&nbsp;
@@ -223,7 +298,7 @@ class CRFDetail extends React.Component {
                   ) : (
                     <></>
                   )}
-                  {IsSameRc ? (
+                  {IsSameRc && !has_end_cycle ? (
                     <Menu.Item key="delete" disabled={!IsSameRc}>
                       <span style={{ color: '#faad14' }}>
                         删除&nbsp;&nbsp;
@@ -234,12 +309,31 @@ class CRFDetail extends React.Component {
                     <></>
                   )}{' '}
                 </SubMenu>
-                <Menu.Item key="cycle_end_record">
-                  <span>
-                    <Icon type="dashboard" />
-                    治疗期终止随访
-                  </span>
-                </Menu.Item>
+                {has_end_cycle ? (
+                  <Menu.Item key="cycle_end_record">
+                    <span>
+                      <Icon type="dashboard" />
+                      治疗期中止随访
+                    </span>
+                  </Menu.Item>
+                ) : (
+                  <Menu.Item key="add_cycle_end_record" selectable={false}>
+                    <span style={{ color: '#39bbdb' }}>
+                      <Icon type="file-add" />
+                      增加治疗期中止随访
+                    </span>
+                  </Menu.Item>
+                )}
+                {has_end_cycle ? (
+                  <Menu.Item key="delete_cycle_end_record" disabled={!IsSameRc}>
+                    <span style={{ color: '#faad14' }}>
+                      <Icon type="delete" />
+                      删除治疗期中止随访
+                    </span>
+                  </Menu.Item>
+                ) : (
+                  <></>
+                )}
                 <Menu.Item key="interview_table">
                   <span>
                     <Icon type="hourglass" />

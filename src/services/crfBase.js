@@ -23,8 +23,8 @@ export async function AddCycle({ sample_id, is_stopped_cycle }) {
 }
 
 // 删除cycle记录
-export async function DeleteCycle({ sample_id }) {
-  return request(`/cycle/${sample_id}`, {
+export async function DeleteCycle({ sample_id, cycle_number }) {
+  return request(`/cycle/${sample_id}/${cycle_number}`, {
     method: 'DELETE'
   })
 }

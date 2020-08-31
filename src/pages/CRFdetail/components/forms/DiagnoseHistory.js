@@ -32,7 +32,8 @@ class DiagnoseHistory extends React.Component {
     loading: PropTypes.object.isRequired
   }
 
-  handleDelete = diagnose_number => {
+  handleDelete = diagnose_id => {
+    // console.log('diagnose_id', diagnose_id)
     Modal.confirm({
       title: '请问是否确认删除？',
       okText: '确定',
@@ -44,7 +45,7 @@ class DiagnoseHistory extends React.Component {
 
           dispatch({
             type: 'crf_first_diagnose/deleteDiagnoseHistory',
-            payload: { sample_id, diagnose_number }
+            payload: { sample_id, diagnose_id }
           }).then(() => {
             resolve()
             dispatch({
@@ -87,7 +88,7 @@ class DiagnoseHistory extends React.Component {
           }
           values.diagnose_method = diagnose_method
         }
-        console.log(values)
+        // console.log(values)
         // 重构genetic_mutation_type
         const genetic_mutation_type = {}
         if (values.genetic_mutation_type != undefined) {
@@ -262,7 +263,7 @@ class DiagnoseHistory extends React.Component {
             style={{ marginLeft: '10px' }}
             type="danger"
             size="small"
-            onClick={() => this.handleDelete(record.diagnose_number)}
+            onClick={() => this.handleDelete(record.id)}
           >
             删除
           </Button>
@@ -468,8 +469,8 @@ class DiagnoseHistory extends React.Component {
                         initialValue: record.is_biopsy_again
                       })(
                         <Radio.Group>
-                          <Radio value={0}>是</Radio>
-                          <Radio value={1}>否</Radio>
+                          <Radio value={1}>是</Radio>
+                          <Radio value={0}>否</Radio>
                         </Radio.Group>
                       )}
                     </Form.Item>

@@ -80,7 +80,7 @@ const Model = {
       if (data) {
         const { cycle_number } = payload
         if (cycle_number === 0) {
-          message.success(`提交治疗期终止访视成功！`)
+          message.success(`提交治疗期中止访视成功！`)
         } else {
           message.success(`提交${cycle_number === 1 ? '基线资料' : '访视' + cycle_number}成功！`)
         }

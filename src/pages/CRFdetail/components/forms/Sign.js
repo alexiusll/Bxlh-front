@@ -78,7 +78,7 @@ class Sign extends React.Component {
 
   render() {
     const { crfbase_sign, crf_cycle_sign, cycle_number, research_center_info } = this.props
-    const user_signature = CookieUtil.get('user_signature')
+    const user_signature = CookieUtil.get('user_signature_2')
     const userInfo = JSON.parse(CookieUtil.get('userInfo'))
     const { name, research_center_name } = userInfo || {}
 
@@ -92,7 +92,7 @@ class Sign extends React.Component {
     if (cycle_number === 1) {
       infoText = '基线资料'
     } else if (cycle_number === 0) {
-      infoText = '治疗期终止随访'
+      infoText = '治疗期中止随访'
     } else {
       infoText = `访视${cycle_number}`
     }

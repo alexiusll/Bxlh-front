@@ -3,8 +3,8 @@
 export default {
   treeShaking: true, 
   history: 'hash',
-  // publicPath: '/static/p1/',
-  publicPath: '/p2/',
+  publicPath: '/static/p2/',
+  // publicPath: '/p2/',
   theme: {
     'primary-color': '#39bbdb',
     // 'primary-color': '#94CEDC', 甲方原来颜色
@@ -18,6 +18,7 @@ export default {
   copy: ['/src/assets/favicon.png'],
   //部署到非根目录路径
   base: 'p2',
+  hash: true,
   //静态资源到非根目录
   proxy: {
     '/api/v1': {

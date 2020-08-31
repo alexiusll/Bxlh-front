@@ -18,7 +18,11 @@ import {
   DeleteDiagnoseHistory,
   FetchPatientReportTable,
   ModifyPatientReportTable,
-  DeletePatientReportTable
+  DeletePatientReportTable,
+  FetchExclusionCriteria,
+  ModifyExclusionCriteria,
+  FetchInclusionCriteria,
+  ModifyInclusionCriteria
 } from '../../../services/crfFirstDiagnose'
 
 const Model = {
@@ -32,7 +36,9 @@ const Model = {
     diagnose_history: [],
     photo_evaluate_table: [],
     patient_history: {},
-    lab_inspection: {}
+    lab_inspection: {},
+    exclusion_criteria: {},
+    inclusion_criteria: {}
   },
 
   reducers: {
@@ -231,6 +237,47 @@ const Model = {
 
       if (data) {
         message.success('删除体格报告成功！')
+      }
+    },
+
+    *fetchInclusionCriteria({ payload }, { call, put }) {
+      const data = yield call(FetchInclusionCriteria, payload)
+      // console.log(data)
+      if (data) {
+        yield put({
+          type: 'save',
+          payload: {
+            inclusion_criteria: data
+          }
+        })
+      }
+    },
+
+    *modifyInclusionCriteria({ payload }, { call }) {
+      const data = yield call(ModifyInclusionCriteria, payload)
+
+      if (data) {
+        message.success('保存纳入标准成功！')
+      }
+    },
+
+    *fetchExclusionCriteria({ payload }, { call, put }) {
+      const data = yield call(FetchExclusionCriteria, payload)
+      // console.log(data)
+      if (data) {
+        yield put({
+          type: 'save',
+          payload: {
+            exclusion_criteria: data
+          }
+        })
+      }
+    },
+
+    *modifyExclusionCriteria({ payload }, { call }) {
+      const data = yield call(ModifyExclusionCriteria, payload)
+      if (data) {
+        message.success('保存排除标准成功！')
       }
     }
   }

@@ -1,8 +1,7 @@
 import React from 'react'
 import { connect } from 'dva'
 import PropTypes from 'prop-types'
-import { Col, Form, DatePicker, Button, Radio, Input, Checkbox, Switch, Select } from 'antd'
-import moment from 'moment'
+import { Col, Form, Button, Radio, Input, Checkbox, Switch, Select } from 'antd'
 import { getSampleId } from '@/utils/location'
 import styles from '../../style.css'
 

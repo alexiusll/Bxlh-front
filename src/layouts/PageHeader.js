@@ -32,11 +32,7 @@ class PageHeader extends React.Component {
       cancelText: '取消',
       onOk: () => {
         // 清空cookie
-        CookieUtil.unset('token')
-        CookieUtil.unset('token_1')
-        CookieUtil.unset('token_2')
-        CookieUtil.unset('userInfo')
-        CookieUtil.unset('user_signature')
+        CookieUtil.unsetAll()
         // 分离项目后跳转登陆 不能用umi自带的router 需要手动跳转
         window.location.href = window.location.origin + '/#/login'
       }
@@ -64,7 +60,7 @@ class PageHeader extends React.Component {
 
   handleLookSignature = () => {
     this.setState({ visible: false })
-    const user_signature = CookieUtil.get('user_signature')
+    const user_signature = CookieUtil.get('user_signature_2')
 
     Modal.info({
       title: '签名图片',
@@ -106,7 +102,7 @@ class PageHeader extends React.Component {
     }
 
     // 获取用户签名 和 用户信息
-    const user_signature = CookieUtil.get('user_signature')
+    const user_signature = CookieUtil.get('user_signature_2')
     const userInfo = JSON.parse(CookieUtil.get('userInfo'))
     const name = userInfo && userInfo.name
 

@@ -28,6 +28,21 @@ const CookieUtil = {
   },
   unset: function(name, path, domain, secure) {
     this.set(name, '', new Date(0), path, domain, secure)
+  },
+  unsetAll: function() {
+    let keys = document.cookie.match(/[^ =;]+(?==)/g)
+    keys.forEach(key => {
+      if (/token_?\d*/.test(key)) {
+        //匹配token
+        this.unset(key)
+      } else if (/user_signature/.test(key)) {
+        //匹配user_signature
+        this.unset(key)
+      } else if (/userInfo/.test(key)) {
+        //匹配userInfo
+        this.unset(key)
+      }
+    })
   }
 }
 

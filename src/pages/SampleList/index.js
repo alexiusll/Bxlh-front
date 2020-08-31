@@ -59,7 +59,7 @@ class SampleList extends React.Component {
     sample_list: PropTypes.array.isRequired,
     sample_info: PropTypes.object.isRequired,
     research_center_info: PropTypes.array.isRequired,
-    group_ids_info: PropTypes.array.isRequired,
+    // group_ids_info: PropTypes.array.isRequired,
     dispatch: PropTypes.func.isRequired,
     user_permission: PropTypes.object.isRequired,
     loading: PropTypes.object.isRequired
@@ -80,8 +80,11 @@ class SampleList extends React.Component {
       type: 'global/fetchResearchCenters'
     })
     dispatch({
-      type: 'global/fetchPatientGroup'
+      type: 'global/fetchSignature'
     })
+    // dispatch({
+    //   type: 'global/fetchPatientGroup'
+    // })
     this.refreshList()
   }
 
@@ -339,18 +342,18 @@ class SampleList extends React.Component {
         </Tooltip>
       )
     },
-    {
-      title: '组别',
-      dataIndex: 'group_name',
-      align: 'center',
-      width: 100,
-      ellipsis: true,
-      render: text => (
-        <Tooltip title={text}>
-          <span>{text}</span>
-        </Tooltip>
-      )
-    },
+    // {
+    //   title: '组别',
+    //   dataIndex: 'group_name',
+    //   align: 'center',
+    //   width: 100,
+    //   ellipsis: true,
+    //   render: text => (
+    //     <Tooltip title={text}>
+    //       <span>{text}</span>
+    //     </Tooltip>
+    //   )
+    // },
     {
       title: '性别',
       dataIndex: 'sex',
@@ -404,6 +407,7 @@ class SampleList extends React.Component {
       dataIndex: 'submit_status',
       align: 'center',
       width: 80,
+      ellipsis: true,
       render: (submit_status, record) => {
         // 记录生存期随访提交条数
         let interviews = 0
@@ -416,9 +420,15 @@ class SampleList extends React.Component {
         // 获得最大的治疗期访视
         let max_cycle_submit = 0
         let end_cycle_submit = false
+        let has_end_cycle = false
         record.status.cycle_status.forEach(i => {
           if (i.is_submit === 1 && i.cycle_number != 0) max_cycle_submit++
-          if (i.is_submit === 1 && i.cycle_number == 0) end_cycle_submit = true
+          if (i.cycle_number == 0) {
+            has_end_cycle = true
+            if (i.is_submit === 1) {
+              end_cycle_submit = true
+            }
+          }
         })
 
         const content = (
@@ -439,14 +449,18 @@ class SampleList extends React.Component {
                 <span style={{ color: '#52c41a' }}>访视{max_cycle_submit + 1}已提交</span>
               )}
             </div>
-            <div>
-              治疗期终止访视：
-              {!end_cycle_submit ? (
-                <span style={{ color: '#faad14' }}>未提交</span>
-              ) : (
-                <span style={{ color: '#52c41a' }}>已提交</span>
-              )}
-            </div>
+            {has_end_cycle ? (
+              <div>
+                治疗期中止访视：
+                {!end_cycle_submit ? (
+                  <span style={{ color: '#faad14' }}>未提交</span>
+                ) : (
+                  <span style={{ color: '#52c41a' }}>已提交</span>
+                )}
+              </div>
+            ) : (
+              <></>
+            )}
             <div>
               生存期访视：
               {interviews === 0 ? (
@@ -494,7 +508,7 @@ class SampleList extends React.Component {
       width: 80,
       render: (_, record) => {
         const disabled = record.submit_status === 2
-        const is_center = this.research_center_id === 12
+        const is_center = this.research_center_id === 11
         const { user_permission } = this.props
 
         // 部分提交 或 已提交 不可以编辑
@@ -509,12 +523,12 @@ class SampleList extends React.Component {
                 </Menu.Item>
                 <Menu.Item
                   key="submit"
-                  disabled={(is_center ? record.research_center_id !== 12 : disabled) || record.submit_status === 2}
+                  disabled={(is_center ? record.research_center_id !== 11 : disabled) || record.submit_status === 2}
                 >
                   提交
                 </Menu.Item>
                 <Menu.Item
-                  style={{ display: is_center ? 'block' : 'none' }}
+                  // style={{ display: is_center ? 'block' : 'none' }}
                   disabled={(record.submit_status !== 1 && record.submit_status !== 2) || !user_permission.can_unlock}
                   key="unlock"
                 >
@@ -531,10 +545,6 @@ class SampleList extends React.Component {
                 详情
                 <Icon type="down" />
               </Link>
-              {/* <a href={`/p2/#/sample/${record.sample_id}/crf`}>
-                详情
-                <Icon type="down" />
-              </a> */}
             </Button>
           </Dropdown>
         )
@@ -569,7 +579,7 @@ class SampleList extends React.Component {
     const { selectedRowKeys } = this.state
     const tableLoading = loading.effects['sample/fetchExpsampleList']
     const infoLoading = loading.effects['sample/fetchSampleInfo']
-    const filterLoading = loading.effects['global/fetchResearchCenters'] || loading.effects['global/fetchPatientGroup']
+    const filterLoading = loading.effects['global/fetchResearchCenters']
     // console.log(sample_list)
     const filterList = [
       // {
@@ -630,17 +640,17 @@ class SampleList extends React.Component {
       }
     ]
 
-    if (this.research_center_id === 12) {
-      filterList.unshift({
-        text: '研究中心：',
-        render: (
-          <CheckTags
-            itemList={[{ id: -1, name: '全部' }, ...research_center_info]}
-            handleChange={id => this.refreshList({ research_center_id: id, page: 1 })}
-          />
-        )
-      })
-    }
+    // if (this.research_center_id === 11) {
+    //   filterList.unshift({
+    //     text: '研究中心：',
+    //     render: (
+    //       <CheckTags
+    //         itemList={[{ id: -1, name: '全部' }, ...research_center_info]}
+    //         handleChange={id => this.refreshList({ research_center_id: id, page: 1 })}
+    //       />
+    //     )
+    //   })
+    // }
 
     // console.log(sample_info)
     // console.log('research_center_info', research_center_info)
@@ -746,7 +756,7 @@ class SampleList extends React.Component {
           size="small"
           bordered={true}
           pagination={false}
-          scroll={{ x: 1080 }}
+          // scroll={{ x: 1080 }}
           columns={this.columns}
           dataSource={sample_list}
         />
@@ -774,7 +784,7 @@ function mapStateToProps(state) {
     sample_list: state.sample.sample_list,
     sample_info: state.sample.sample_info,
     research_center_info: state.global.research_center_info,
-    group_ids_info: state.global.group_ids_info,
+    // group_ids_info: state.global.group_ids_info,
     user_permission: state.sample.user_permission,
     loading: state.loading
   }

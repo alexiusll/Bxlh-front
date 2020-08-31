@@ -23,11 +23,11 @@ export async function FetchResearchCenters(body) {
 }
 
 // 获取患者组别
-export async function FetchPatientGroup() {
-  return request('/group_ids', {
-    method: 'GET'
-  })
-}
+// export async function FetchPatientGroup() {
+//   return request('/group_ids', {
+//     method: 'GET'
+//   })
+// }
 
 // 下载文件
 export async function DownloadFile(file_path, as_attachment) {

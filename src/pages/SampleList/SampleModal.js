@@ -3,10 +3,10 @@ import { connect } from 'dva'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 import { Modal, Form, Input, Select, Button, Radio, DatePicker, Divider } from 'antd'
-
 import { disabledDateAfterToday } from '@/utils/util'
 import styles from './style.css'
 import CookieUtil from '@/utils/cookie'
+import { getBirthDay } from '@/utils/date'
 
 const { Option } = Select
 
@@ -20,6 +20,12 @@ class SampleModal extends React.Component {
   constructor(props) {
     super(props)
   }
+
+  state = {
+    id_num: '',
+    birthday: ''
+  }
+
   static propTypes = {
     record: PropTypes.object.isRequired,
     research_center_info: PropTypes.array.isRequired,
@@ -54,11 +60,26 @@ class SampleModal extends React.Component {
     })
   }
 
+  componentDidUpdate(prevProps) {
+    const { record } = this.props
+    if (record !== prevProps.record) {
+      // console.log('value', record.id_num)
+      this.setState({ id_num: record.id_num })
+      this.setState({ birthday: getBirthDay(record.id_num) })
+    }
+  }
+
+  onIdNumberChange(e) {
+    // console.log('value', e.target.value)
+    this.setState({ birthday: getBirthDay(e.target.value) })
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form
     const submitLoading = this.props.loading.effects['sample/createSample']
     const { record, visible, onCancel, research_center_info } = this.props
     const { research_center_id } = JSON.parse(CookieUtil.get('userInfo'))
+    const { birthday } = this.state
 
     return (
       <Modal
@@ -106,7 +127,7 @@ class SampleModal extends React.Component {
                 { required: true, message: '请输入患者身份证号' },
                 { pattern: /(^\d{18}$)|(^\d{17}(\d|X|x)$)/, message: '身份证号格式不合法，请重新输入' }
               ]
-            })(<Input placeholder="请输入身份证号" />)}
+            })(<Input placeholder="请输入身份证号" onChange={e => this.onIdNumberChange(e)} />)}
           </Form.Item>
           {/* <Form.Item label="患者组别">
             {getFieldDecorator('group_id', {
@@ -135,22 +156,17 @@ class SampleModal extends React.Component {
               />
             )}
           </Form.Item>
-          <Form.Item label="出生日期">
-            {getFieldDecorator('date', {
-              initialValue: record.date ? moment(record.date, 'YYYY-MM-DD') : null,
-              rules: [{ required: true, message: '请选择出生日期' }]
-            })(<DatePicker format={'YYYY-MM-DD'} disabledDate={disabledDateAfterToday} placeholder="请选择日期" />)}
-          </Form.Item>
+          <Form.Item label="出生日期">{birthday}</Form.Item>
           <Form.Item label="签署同意书日期">
             {getFieldDecorator('sign_time', {
               initialValue: record.sign_time ? moment(record.sign_time, 'YYYY-MM-DD') : null,
               rules: [{ required: true, message: '请选择签署同意书日期' }]
             })(<DatePicker format={'YYYY-MM-DD'} disabledDate={disabledDateAfterToday} placeholder="请选择日期" />)}
           </Form.Item>
-          <Form.Item label="检查日期">
+          <Form.Item label="入组日期">
             {getFieldDecorator('in_group_time', {
               initialValue: record.in_group_time ? moment(record.in_group_time, 'YYYY-MM-DD') : null,
-              rules: [{ required: true, message: '请选择检查日期' }]
+              rules: [{ required: true, message: '请选择入组日期' }]
             })(<DatePicker format={'YYYY-MM-DD'} disabledDate={disabledDateAfterToday} placeholder="请选择日期" />)}
           </Form.Item>
           <Divider className={styles.modal_divider} />

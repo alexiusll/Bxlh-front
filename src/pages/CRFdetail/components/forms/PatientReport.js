@@ -98,12 +98,12 @@ class PatientReport extends React.Component {
     },
     {
       title: '舒张压(mmHg)',
-      dataIndex: 'maxpressure',
+      dataIndex: 'minpressure',
       align: 'center'
     },
     {
       title: '收缩压(mmHg)',
-      dataIndex: 'minpressure',
+      dataIndex: 'maxpressure',
       align: 'center'
     },
     {

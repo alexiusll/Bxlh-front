@@ -298,10 +298,10 @@ class FirstDiag extends React.Component {
               <Radio value="神经内分泌癌">神经内分泌癌</Radio>
               <Radio value="肉瘤">肉瘤</Radio>
               <Radio value="分化差的癌">分化差的癌</Radio> */}
-              <Radio value="混合型癌">
+              <Radio value="其他">
                 其他
-                {tumor_pathological_type === '混合型癌' ||
-                (tumor_pathological_type === '' && first_diagnose.tumor_pathological_type === '混合型癌') ? (
+                {tumor_pathological_type === '其他' ||
+                (tumor_pathological_type === '' && first_diagnose.tumor_pathological_type === '其他') ? (
                   <div style={{ display: 'inline-block' }}>
                     {getFieldDecorator('tumor_pathological_type_other', {
                       initialValue: first_diagnose.tumor_pathological_type_other

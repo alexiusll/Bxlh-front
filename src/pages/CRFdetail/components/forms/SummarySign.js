@@ -78,7 +78,7 @@ class SummarySign extends React.Component {
   render() {
     const { summary_sign, research_center_info, sign_type } = this.props
 
-    const user_signature = CookieUtil.get('user_signature')
+    const user_signature = CookieUtil.get('user_signature_2')
     const userInfo = JSON.parse(CookieUtil.get('userInfo'))
     const { name, research_center_name } = userInfo || {}
 

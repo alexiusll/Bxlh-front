@@ -75,7 +75,7 @@ class LabInspection extends React.Component {
 
     return (
       <Form {...formItemLayout} onSubmit={this.handleSubmit}>
-        <Form.Item label="开始时间">
+        <Form.Item label="采样时间">
           {getFieldDecorator('time', {
             initialValue: lab_inspection.time ? moment(lab_inspection.time, 'YYYY-MM-DD') : null
           })(<DatePicker format="YYYY-MM-DD" />)}
@@ -164,7 +164,7 @@ class LabInspection extends React.Component {
         </Form.Item>
         <h2>尿常规</h2>
         <Divider className={styles.lab_inspection_divider} />
-        <Form.Item label="白细胞(个/HP)">
+        <Form.Item label="红细胞(个/HP)">
           {getFieldDecorator('RBC_P_val', {
             initialValue: lab_inspection.RBC_P_val
           })(<Input style={{ width: 200, marginRight: 30 }} placeholder="请输入检测值(个/HP)" />)}
@@ -180,7 +180,7 @@ class LabInspection extends React.Component {
             </Radio.Group>
           )}
         </Form.Item>
-        <Form.Item label="红细胞(个/HP)">
+        <Form.Item label="白细胞(个/HP)">
           {getFieldDecorator('WBC_P_val', {
             initialValue: lab_inspection.WBC_P_val
           })(<Input style={{ width: 200, marginRight: 30 }} placeholder="请输入检测值(个/HP)" />)}
@@ -208,6 +208,29 @@ class LabInspection extends React.Component {
           临床意义判定：
           {getFieldDecorator('PRO_rank', {
             initialValue: lab_inspection.PRO_rank
+          })(
+            <Radio.Group>
+              <Radio value={1}>1</Radio>
+              <Radio value={2}>2</Radio>
+              <Radio value={3}>3</Radio>
+              <Radio value={4}>4</Radio>
+            </Radio.Group>
+          )}
+        </Form.Item>
+        <h2>大便常规</h2>
+        <Divider className={styles.lab_inspection_divider} />
+        <Form.Item label="隐血(+/-)">
+          {getFieldDecorator('SHIT_val', {
+            initialValue: lab_inspection.SHIT_val
+          })(
+            <Radio.Group style={{ marginRight: 20 }}>
+              <Radio value="1">+</Radio>
+              <Radio value="2">-</Radio>
+            </Radio.Group>
+          )}
+          临床意义判定：
+          {getFieldDecorator('SHIT_rank', {
+            initialValue: lab_inspection.SHIT_rank
           })(
             <Radio.Group>
               <Radio value={1}>1</Radio>
