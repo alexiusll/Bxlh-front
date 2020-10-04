@@ -253,7 +253,8 @@ class TreatmentRecord extends React.Component {
 
     return (
       <>
-        <Button type="primary" onClick={() => this.handleEditModel({ treatment_record_id: '' })}>
+        {/* <Button type="primary" onClick={() => this.handleEditModel({ treatment_record_id: '' })}> */}
+        <Button type="primary" onClick={() => this.handleEditModel({})}>
           添加
         </Button>
         <Table
