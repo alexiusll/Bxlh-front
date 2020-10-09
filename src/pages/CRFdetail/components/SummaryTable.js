@@ -179,7 +179,7 @@ class Summary extends React.Component {
                 {reason_stop_drug === 7 || (reason_stop_drug === -1 && summary.reason_stop_drug === 7) ? (
                   <div style={{ display: 'inline-block' }}>
                     {getFieldDecorator('other_reasons', {
-                      initialValue: summary.other_reasons
+                      initialValue: summary.other_reasons || ''
                     })(<Input style={{ width: 250, marginLeft: 15 }} placeholder="请输入其他原因" />)}
                   </div>
                 ) : null}

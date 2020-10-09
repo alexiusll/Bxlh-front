@@ -493,7 +493,7 @@ class DiagnoseHistory extends React.Component {
                             {biopsy_method === '其他' || (biopsy_method === '' && record.biopsy_method === '其他') ? (
                               <div style={{ display: 'inline-block' }}>
                                 {getFieldDecorator('biopsy_method_other', {
-                                  initialValue: record.biopsy_method_other
+                                  initialValue: record.biopsy_method_other || ''
                                 })(<Input style={{ width: 200, marginLeft: 15 }} placeholder="其他方式" />)}
                               </div>
                             ) : null}
@@ -514,7 +514,7 @@ class DiagnoseHistory extends React.Component {
                             (biopsy_type === '' && record.biopsy_type === '与第1次活检病理类型不一致') ? (
                               <div style={{ display: 'inline-block' }}>
                                 {getFieldDecorator('biopsy_type_other', {
-                                  initialValue: record.biopsy_type_other
+                                  initialValue: record.biopsy_type_other || ''
                                 })(<Input style={{ width: 200, marginLeft: 15 }} placeholder="" />)}
                               </div>
                             ) : null}
@@ -536,7 +536,7 @@ class DiagnoseHistory extends React.Component {
                             (genetic_specimen === '' && record.genetic_specimen === '转移灶组织') ? (
                               <div style={{ display: 'inline-block' }}>
                                 {getFieldDecorator('genetic_specimen_other', {
-                                  initialValue: record.genetic_specimen_other
+                                  initialValue: record.genetic_specimen_other || ''
                                 })(<Input style={{ width: 200, marginLeft: 15 }} placeholder="其他标本" />)}
                               </div>
                             ) : null}
@@ -613,7 +613,7 @@ class DiagnoseHistory extends React.Component {
                             {tmb === '其他' || (tmb === '' && record.tmb === '其他') ? (
                               <div style={{ display: 'inline-block' }}>
                                 {getFieldDecorator('tmb_other', {
-                                  initialValue: record.tmb_other
+                                  initialValue: record.tmb_other || ''
                                 })(<Input style={{ width: 200, marginLeft: 15 }} placeholder="tmb数量" />)}
                               </div>
                             ) : null}

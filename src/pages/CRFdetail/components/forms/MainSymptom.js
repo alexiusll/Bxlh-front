@@ -235,7 +235,7 @@ class MainSymptom extends React.Component {
                     {symptom_description === '其他' ? (
                       <div style={{ display: 'inline-block' }}>
                         {getFieldDecorator('symptom_description_other', {
-                          initialValue: record.symptom_description_other
+                          initialValue: record.symptom_description_other || ''
                         })(<Input style={{ width: 200, marginLeft: 15 }} placeholder="其他症状体征和描述" />)}
                       </div>
                     ) : null}

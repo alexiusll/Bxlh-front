@@ -278,7 +278,7 @@ class FirstDiag extends React.Component {
                 {biopsy_method === '其他' || (biopsy_method === '' && first_diagnose.biopsy_method === '其他') ? (
                   <div style={{ display: 'inline-block' }}>
                     {getFieldDecorator('biopsy_method_other', {
-                      initialValue: first_diagnose.biopsy_method_other
+                      initialValue: first_diagnose.biopsy_method_other || ''
                     })(<Input style={{ width: 200, marginLeft: 15 }} placeholder="其他方式" />)}
                   </div>
                 ) : null}
@@ -304,7 +304,7 @@ class FirstDiag extends React.Component {
                 (tumor_pathological_type === '' && first_diagnose.tumor_pathological_type === '其他') ? (
                   <div style={{ display: 'inline-block' }}>
                     {getFieldDecorator('tumor_pathological_type_other', {
-                      initialValue: first_diagnose.tumor_pathological_type_other
+                      initialValue: first_diagnose.tumor_pathological_type_other || ''
                     })(<Input style={{ width: 200, marginLeft: 15 }} placeholder="其他类型" />)}
                   </div>
                 ) : null}
@@ -326,7 +326,7 @@ class FirstDiag extends React.Component {
                 (genetic_testing_specimen === '' && first_diagnose.genetic_testing_specimen === '转移灶组织') ? (
                   <div style={{ display: 'inline-block' }}>
                     {getFieldDecorator('genetic_testing_specimen_other', {
-                      initialValue: first_diagnose.genetic_testing_specimen_other
+                      initialValue: first_diagnose.genetic_testing_specimen_other || ''
                     })(<Input style={{ width: 200, marginLeft: 15 }} placeholder="其他标本" />)}
                   </div>
                 ) : null}
@@ -403,7 +403,7 @@ class FirstDiag extends React.Component {
                 {tmb === '其他' || (tmb === '' && first_diagnose.tmb === '其他') ? (
                   <div style={{ display: 'inline-block' }}>
                     {getFieldDecorator('tmb_other', {
-                      initialValue: first_diagnose.tmb_other
+                      initialValue: first_diagnose.tmb_other || ''
                     })(<Input style={{ width: 200, marginLeft: 15 }} placeholder="tmb数量" />)}
                   </div>
                 ) : null}

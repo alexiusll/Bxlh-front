@@ -346,7 +346,7 @@ class AdverseEvent extends React.Component {
                         {SAE_state === 8 ? (
                           <div style={{ display: 'inline-block' }}>
                             {getFieldDecorator('other_SAE_state', {
-                              initialValue: record.other_SAE_state
+                              initialValue: record.other_SAE_state || ''
                             })(<Input style={{ width: 200, marginLeft: 15 }} placeholder="请输入其他SAE情况" />)}
                           </div>
                         ) : null}

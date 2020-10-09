@@ -47,6 +47,17 @@ class PatientHistory extends React.Component {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (!err) {
+        // console.log('values', values)
+        if ('tumor_ill_other' in values) {
+          values.tumor_ill_other = values.tumor_ill_other ? values.tumor_ill_other : ''
+        }
+        if ('drug_allergy_other' in values) {
+          values.drug_allergy_other = values.drug_allergy_other ? values.drug_allergy_other : ''
+        }
+        if ('drug_use_other' in values) {
+          values.drug_use_other = values.drug_use_other ? values.drug_use_other : ''
+        }
+
         const { dispatch } = this.props
         // 过滤checkbox的值
         // 过滤base_ill
@@ -192,7 +203,7 @@ class PatientHistory extends React.Component {
                 {surgery === '其他' || (surgery === '' && patient_history.surgery === '其他') ? (
                   <div style={{ display: 'inline-block' }}>
                     {getFieldDecorator('surgery_other', {
-                      initialValue: patient_history.surgery_other
+                      initialValue: patient_history.surgery_other || ''
                     })(<Input style={{ width: 200, marginLeft: 15 }} placeholder="其他外伤及手术史" />)}
                   </div>
                 ) : null}
