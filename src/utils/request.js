@@ -60,7 +60,7 @@ const config = {
 }
 
 const { NODE_ENV } = process.env
-const ENV = 'pre'
+const ENV = 'prod'
 
 export const post_prefix = config[ENV]
 

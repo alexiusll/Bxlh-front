@@ -8,8 +8,8 @@
 export default {
   treeShaking: true, 
   history: 'hash',
-  // publicPath: '/static/p2/',
-  publicPath: '/p2/',
+  publicPath: '/static/p2/',
+  // publicPath: '/p2/',
   theme: {
     'primary-color': '#39bbdb',
     // 'primary-color': '#94CEDC', 甲方原来颜色
